@@ -1,6 +1,8 @@
 # Reboot-Cluster.ps1
 # Posted to practicalpowershell.com
 # Edited by : Kevin Cordeiro
+
+
 Import-Module PSWindowsUpdate
 $clustername = ""
 $logdate = (get-date).tostring('yyyy-MM-dd')
@@ -16,12 +18,15 @@ if(test-path $log)
 {
 remove-item $log
 }
+
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Starting maintenance for cluster $clustername"
+
 # Make sure the cluster module is loaded
 #
 $ClusterModLoaded = $FALSE
 $CurrentMods = Get-Module
+
 # Check if we need to load the module
 foreach ($Mod in $CurrentMods)
 {
@@ -53,6 +58,7 @@ if ($ClusterModLoaded -eq $FALSE)
     exit
     }
 }
+###################
 # Make sure the cluster module is loaded
 #
 $PSWUModLoaded = $FALSE
@@ -114,8 +120,11 @@ $gAOwner = $gA[2]
 $gAState = $gA[3]
 add-content $log "$now $gAName found on $gAOwner in state $gAState"
 }
+
 #Find all nodes in cluster, begin loop.
+
 $clusternode = get-clusternode -cluster $clustername
+
 foreach($node in $clusternode)
 {
 $now = (get-date).tostring('HH:mm:ss -')
