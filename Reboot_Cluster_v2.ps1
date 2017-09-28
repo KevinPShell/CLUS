@@ -5,18 +5,14 @@
 
 Import-Module PSWindowsUpdate
 $clustername = ""
-
 $logdate = (get-date).tostring('yyyy-MM-dd')
 $log = "C:\ClusterReboot-$clustername-$logdate.log"
-
 #The recipient lists need to be comma delimited strings
 #i.e "user@contoso.com"
 $emailrecipients = ""
 $erroremailrecipients = ""
-
 $emailfrom = ""
 $emailserver = ""
-
 #Check if same log name exists. If so, delete.
 if(test-path $log)
 {
