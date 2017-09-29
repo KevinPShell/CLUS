@@ -1,8 +1,6 @@
 # Reboot-Cluster.ps1
 # Posted to practicalpowershell.com
 # Edited by : Kevin Cordeiro
-
-
 Import-Module PSWindowsUpdate
 $clustername = ""
 $logdate = (get-date).tostring('yyyy-MM-dd')
@@ -18,10 +16,8 @@ if(test-path $log)
 {
 remove-item $log
 }
-
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Starting maintenance for cluster $clustername"
-
 # Make sure the cluster module is loaded
 #
 $ClusterModLoaded = $FALSE
@@ -220,6 +216,7 @@ exit
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Updates complete on $node"
 add-content $log "$now $updateLaunch"
+start-sleep -seconds 120
 #if($UpdateLaunch.contains("Completed"))
 #{
 #Wait for completion
