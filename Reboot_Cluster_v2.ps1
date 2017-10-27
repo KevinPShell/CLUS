@@ -1,23 +1,31 @@
 # Reboot-Cluster.ps1
 # Posted to practicalpowershell.com
 # Edited by : Kevin Cordeiro
+# Société : Transdev
+
 Import-Module PSWindowsUpdate
 $clustername = ""
+
 $logdate = (get-date).tostring('yyyy-MM-dd')
 $log = "C:\ClusterReboot-$clustername-$logdate.log"
+
 #The recipient lists need to be comma delimited strings
 #i.e "user@contoso.com"
 $emailrecipients = ""
 $erroremailrecipients = ""
+
 $emailfrom = ""
 $emailserver = ""
+
 #Check if same log name exists. If so, delete.
 if(test-path $log)
 {
 remove-item $log
 }
+
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Starting maintenance for cluster $clustername"
+
 # Make sure the cluster module is loaded
 #
 $ClusterModLoaded = $FALSE
@@ -216,31 +224,9 @@ exit
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Updates complete on $node"
 add-content $log "$now $updateLaunch"
-start-sleep -seconds 120
-#if($UpdateLaunch.contains("Completed"))
-#{
-#Wait for completion
-#$now = (get-date).tostring('HH:mm:ss -')
-#add-content $log "$now Updates complete on $node"
-#add-content $log "$now $updateLaunch"
-#}
-#elseif($UpdateLaunch.contains("Found [0] Updates in pre search criteria"))
-#{
-#Move to reboot.
-#$now = (get-date).tostring('HH:mm:ss -')
-#add-content $log "$now No updates to install on $node"
-#}
-#else #Assume error condition
-#{
-#$now = (get-date).tostring('HH:mm:ss -')
-#add-content $log "$now Error on update launcher: $UpdateLaunch"
 
-#    Send-MailMessage -to $erroremailrecipients -from $emailfrom -smtpserver $emailserver `
-#    -Subject "$Clustername patching error" `
-#    -Body "The automated patching/reboot of $clustername encountered an error. See attached job log." `
-#    -attachment $log -priority high
-#exit
-#}
+
+
 ########WSUS PART END
 
 $now = (get-date).tostring('HH:mm:ss -')
@@ -302,6 +288,8 @@ add-content $log "$now Resuming cluster service on $node"
     exit
     }
 }
+#delete task schedule
+schtasks /delete /s $node /TN PSWindowsUpdate /F
 #end node loop
 
 #All patching complete. Return groups to original location.
