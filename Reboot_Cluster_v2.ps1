@@ -124,9 +124,7 @@ $gAOwner = $gA[2]
 $gAState = $gA[3]
 add-content $log "$now $gAName found on $gAOwner in state $gAState"
 }
-
 #Find all nodes in cluster, begin loop.
-
 $clusternode = get-clusternode -cluster $clustername
 
 foreach($node in $clusternode)
@@ -224,8 +222,6 @@ exit
 $now = (get-date).tostring('HH:mm:ss -')
 add-content $log "$now Updates complete on $node"
 add-content $log "$now $updateLaunch"
-
-
 
 ########WSUS PART END
 
